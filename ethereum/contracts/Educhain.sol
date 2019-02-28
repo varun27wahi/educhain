@@ -1,6 +1,19 @@
 pragma solidity ^0.4.17;
 
-contract IssueCertificates {
+contract IssuerFactory {
+    address[] public issuers;
+
+    function createNewIssuer(string name) public {
+        address newIssuer = new Issuer(msg.sender, name);
+        issuers.push(newIssuer);
+    }
+
+    function getIssuers() public view returns (address[]) {
+        return issuers;
+    }
+}
+
+contract Issuer {
     struct Certificate {
         uint id;
         string description;
@@ -12,6 +25,7 @@ contract IssueCertificates {
     }
 
     address public issuer;
+    string public issuerName;
     Certificate[] public certificates;
 
     modifier restricted() {
@@ -19,8 +33,9 @@ contract IssueCertificates {
         _;
     }
 
-    function Issuer() public {
-        issuer = msg.sender;
+    function Issuer(address creator, string name) public {
+        issuer = creator;
+        issuerName = name;
     }
 
     function generateID(string recipientID, string issuingAuthority) private view returns (uint) {
@@ -28,7 +43,7 @@ contract IssueCertificates {
     }
 
     function issueCertificate(string description, string issuingAuthority, string recipientID,
-        string typeOfCertificate, string details) public {
+        string typeOfCertificate, string details) public restricted {
         Certificate memory newCertificate = Certificate({
            id: generateID(recipientID, issuingAuthority),
            description: description,
