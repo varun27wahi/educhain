@@ -4,6 +4,8 @@ contract IssuerFactory {
     address[] public issuers;
 
     function createNewIssuer(string name) public {
+        require(bytes(name).length != 0);
+
         address newIssuer = new Issuer(msg.sender, name);
         issuers.push(newIssuer);
     }

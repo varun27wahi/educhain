@@ -16,11 +16,19 @@ class IssuersIndex extends Component {
       return {
         header: address,
         description: (
-          <Link route={`/issuers/${address}/view`}>
-            <Button style={{ marginTop: '10px' }}>
-              <a>Verify Certificates for this Issuer</a>
-            </Button>
-          </Link>
+          <div>
+            <Link route={`/issuers/${address}/certificates/new`}>
+              <Button floated="right" color="black" basic>
+                <a>Issue New Certificate</a>
+              </Button>
+            </Link>
+
+            <Link route={`/issuers/${address}/certificates/view`}>
+              <Button style={{ marginTop: '10px' }} color="black" basic>
+                <a>Verify Certificates for this Issuer</a>
+              </Button>
+            </Link>
+          </div>
         ),
         fluid: true
       }

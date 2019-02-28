@@ -3,7 +3,7 @@ import IssuerFactory from './build/IssuerFactory.json';
 
 const instance = new web3.eth.Contract(
   JSON.parse(IssuerFactory.interface),
-  '0x9820BA8db1D9a847c60Ab96773d28dB2Db53f3A4'
+  '0xCF49b9a8e4883FfF6b5648b8B3E66b85f292A602'
 );
 
 export default instance;
