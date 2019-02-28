@@ -58,4 +58,8 @@ contract Issuer {
 
         certificates.push(newCertificate);
     }
+
+    function getNumberOfCertificates() public view returns (uint) {
+        return certificates.length;
+    }
 }

@@ -25,7 +25,7 @@ class IssuersIndex extends Component {
 
             <Link route={`/issuers/${address}/certificates/view`}>
               <Button style={{ marginTop: '10px' }} color="black" basic>
-                <a>Verify Certificates for this Issuer</a>
+                <a>View Certificates for this Issuer</a>
               </Button>
             </Link>
           </div>
