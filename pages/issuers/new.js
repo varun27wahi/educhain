@@ -9,6 +9,7 @@ class NewIssuer extends Component {
   state = {
     name: '',
     errorMessage: '',
+    warning: false,
     loading: false
   }
 
@@ -17,10 +18,13 @@ class NewIssuer extends Component {
 
     this.setState({
       loading: true,
-      errorMessage: ''
+      errorMessage: '',
+      warning: false
     });
 
     try {
+      this.setState({ warning: true });
+
       const accounts = await web3.eth.getAccounts();
       await factory.methods.createNewIssuer(this.state.name).send({
         from: accounts[0]
@@ -28,7 +32,10 @@ class NewIssuer extends Component {
 
       Router.pushRoute('/');
     } catch (err) {
-      this.setState({ errorMessage: err.message });
+      this.setState({
+        errorMessage: err.message ,
+        warning: false
+      });
     }
 
     this.setState({ loading: false });
@@ -37,7 +44,7 @@ class NewIssuer extends Component {
   render() {
     return (
       <Layout>
-        <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
+        <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage} warning={this.state.warning}>
           <Form.Field>
             <label>Issuer Name</label>
             <Input
@@ -46,6 +53,7 @@ class NewIssuer extends Component {
             />
           </Form.Field>
 
+          <Message warning header="Please wait!" content="Your transaction will take 10-15 seconds to be completed in the Blockchain." />
           <Message error header="Oops!" content={this.state.errorMessage} />
           <Button primary loading={this.state.loading}>Become an Issuer!</Button>
         </Form>

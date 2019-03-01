@@ -13,6 +13,7 @@ class NewCertificate extends Component {
     typeOfCertificate: '',
     details: '',
     errorMessage: '',
+    warning: false,
     loading: false
   }
 
@@ -25,12 +26,18 @@ class NewCertificate extends Component {
   onSubmit = async event => {
     event.preventDefault();
 
-    this.setState({  loading: true, errorMessage: '' });
+    this.setState({
+      loading: true,
+      errorMessage: '',
+      warning: false
+    });
 
     const issuer = Issuer(this.props.address);
     const { description, issuingAuthority, recipientID, typeOfCertificate, details } = this.state;
 
     try {
+      this.setState({ warning: true });
+
       const accounts = await web3.eth.getAccounts();
       await issuer.methods.issueCertificate(
         description,
@@ -42,7 +49,10 @@ class NewCertificate extends Component {
 
       Router.pushRoute(`/issuers/${this.props.address}/certificates/view`);
     } catch (err) {
-        this.setState({ errorMessage: err.message });
+        this.setState({
+          errorMessage: err.message,
+          warning: false
+        });
     }
 
     this.setState({ loading: false });
@@ -58,7 +68,7 @@ class NewCertificate extends Component {
         </Link>
         <h3>Issue a New Certificate</h3>
 
-        <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
+        <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage} warning={this.state.warning}>
           <Form.Field>
             <label>Description</label>
             <Input
@@ -99,6 +109,7 @@ class NewCertificate extends Component {
             />
           </Form.Field>
 
+          <Message warning header="Please wait!" content="Your transaction will take 10-15 seconds to be completed in the Blockchain." />
           <Message error header="Oops!" content={this.state.errorMessage} />
           <Button primary loading={this.state.loading}>Issue to the Blockchain</Button>
         </Form>
