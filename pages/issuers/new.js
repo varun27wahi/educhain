@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Message, Button, Input } from 'semantic-ui-react';
+import { Form, Message, Button, Input, Icon } from 'semantic-ui-react';
 import { Router } from '../../routes';
 import Layout from '../../components/Layout';
 import factory from '../../ethereum/factory';
@@ -55,7 +55,10 @@ class NewIssuer extends Component {
 
           <Message warning header="Please wait!" content="Your transaction will take 10-15 seconds to be completed in the Blockchain." />
           <Message error header="Oops!" content={this.state.errorMessage} />
-          <Button primary loading={this.state.loading}>Become an Issuer!</Button>
+          <Button icon labelPosition="left" primary loading={this.state.loading}>
+            <Icon name="add circle" />
+            Create
+          </Button>
         </Form>
       </Layout>
     );

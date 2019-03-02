@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Message, Button, Input } from 'semantic-ui-react';
+import { Form, Message, Button, Input, Icon } from 'semantic-ui-react';
 import Issuer from '../../../ethereum/issuer';
 import web3 from '../../../ethereum/web3';
 import { Link, Router } from '../../../routes';
@@ -19,8 +19,10 @@ class NewCertificate extends Component {
 
   static async getInitialProps(props) {
     const { address } = props.query;
+    const issuer = Issuer(address);
+    const issuerName = await issuer.methods.issuerName().call();
 
-    return { address };
+    return { address, issuer, issuerName };
   }
 
   onSubmit = async event => {
@@ -32,14 +34,13 @@ class NewCertificate extends Component {
       warning: false
     });
 
-    const issuer = Issuer(this.props.address);
     const { description, issuingAuthority, recipientID, typeOfCertificate, details } = this.state;
 
     try {
       this.setState({ warning: true });
 
       const accounts = await web3.eth.getAccounts();
-      await issuer.methods.issueCertificate(
+      await this.props.issuer.methods.issueCertificate(
         description,
         issuingAuthority,
         recipientID,
@@ -63,10 +64,10 @@ class NewCertificate extends Component {
       <Layout>
         <Link route={`/issuers/${this.props.address}/certificates/view`}>
          <a>
-          Back
+          View Certificates
          </a>
         </Link>
-        <h3>Issue a New Certificate</h3>
+        <h3>{`Issue a New Certificate for ${this.props.issuerName}`}</h3>
 
         <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage} warning={this.state.warning}>
           <Form.Field>
@@ -111,7 +112,10 @@ class NewCertificate extends Component {
 
           <Message warning header="Please wait!" content="Your transaction will take 10-15 seconds to be completed in the Blockchain." />
           <Message error header="Oops!" content={this.state.errorMessage} />
-          <Button primary loading={this.state.loading}>Issue to the Blockchain</Button>
+          <Button icon labelPosition="left" primary loading={this.state.loading}>
+            <Icon name="add circle" />
+            Issue to Blockchain
+          </Button>
         </Form>
       </Layout>
     );

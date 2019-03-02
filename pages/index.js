@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Button } from 'semantic-ui-react';
+import { Card, Menu } from 'semantic-ui-react';
 import Layout from '../components/Layout';
 import factory from '../ethereum/factory';
 import { Link } from '../routes';
@@ -16,19 +16,17 @@ class IssuersIndex extends Component {
       return {
         header: address,
         description: (
-          <div>
-            <Link route={`/issuers/${address}/certificates/new`}>
-              <Button floated="right" color="black" basic>
-                <a>Issue New Certificate</a>
-              </Button>
+          <Menu secondary>
+            <Link route={`/issuers/${address}/certificates/view`}>
+              <a className="item">View Certificates for this Issuer</a>
             </Link>
 
-            <Link route={`/issuers/${address}/certificates/view`}>
-              <Button style={{ marginTop: '10px' }} color="black" basic>
-                <a>View Certificates for this Issuer</a>
-              </Button>
-            </Link>
-          </div>
+            <Menu.Menu position="right">
+              <Link route={`/issuers/${address}/certificates/new`}>
+                <a className="item">Are you the Issuer? Add a New Certificate</a>
+              </Link>
+            </Menu.Menu>
+          </Menu>
         ),
         fluid: true
       }
