@@ -53,7 +53,11 @@ class NewIssuer extends Component {
             />
           </Form.Field>
 
-          <Message warning header="Please wait!" content="Your transaction will take 10-15 seconds to be completed in the Blockchain." />
+          <Message warning header="Please see!"
+            list={[
+              "Your transaction will take 10-15 seconds to be completed in the Blockchain.",
+              "Ensure that the name field isn't blank if the transaction fails."
+            ]} />
           <Message error header="Oops!" content={this.state.errorMessage} />
           <Button icon labelPosition="left" primary loading={this.state.loading}>
             <Icon name="add circle" />

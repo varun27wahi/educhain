@@ -110,7 +110,11 @@ class NewCertificate extends Component {
             />
           </Form.Field>
 
-          <Message warning header="Please wait!" content="Your transaction will take 10-15 seconds to be completed in the Blockchain." />
+          <Message warning header="Please see!"
+            list={[
+              "Your transaction will take 10-15 seconds to be completed in the Blockchain.",
+              "The transaction will only go through if you're the Issuer."
+            ]} />
           <Message error header="Oops!" content={this.state.errorMessage} />
           <Button icon labelPosition="left" primary loading={this.state.loading}>
             <Icon name="add circle" />
