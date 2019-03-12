@@ -2,8 +2,18 @@ pragma solidity ^0.4.17;
 
 contract IssuerFactory {
     address[] public issuers;
+    address public centralAuthority;
 
-    function createNewIssuer(string name) public {
+    modifier authorized() {
+        require(msg.sender == centralAuthority);
+        _;
+    }
+
+    function IssuerFactory() public {
+      centralAuthority = msg.sender;
+    }
+
+    function createNewIssuer(string name) public authorized {
         require(bytes(name).length != 0);
 
         address newIssuer = new Issuer(msg.sender, name);

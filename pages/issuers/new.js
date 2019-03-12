@@ -55,6 +55,7 @@ class NewIssuer extends Component {
 
           <Message warning header="Please see!"
             list={[
+              "The transaction will only be processed if you're the Central Authority.",
               "Your transaction will take 10-15 seconds to be completed in the Blockchain.",
               "Ensure that the name field isn't blank if the transaction fails."
             ]} />
