@@ -13,10 +13,8 @@ contract IssuerFactory {
       centralAuthority = msg.sender;
     }
 
-    function createNewIssuer(string name) public authorized {
-        require(bytes(name).length != 0);
-
-        address newIssuer = new Issuer(msg.sender, name);
+    function createNewIssuer(string name, address creator) public authorized {
+        address newIssuer = new Issuer(creator, name);
         issuers.push(newIssuer);
     }
 
