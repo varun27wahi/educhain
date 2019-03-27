@@ -18,7 +18,7 @@ class IssuersIndex extends Component {
         description: (
           <Menu secondary>
             <Link route={`/issuers/${address}/certificates/view`}>
-              <a className="item">View Certificates for this Issuer</a>
+              <a className="item">Verify Certificates for this Issuer</a>
             </Link>
 
             <Menu.Menu position="right">
