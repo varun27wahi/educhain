@@ -1,2 +1,1 @@
-1. Change createNewIssuer() to take address as a parameter.
-2. Add verification functionality.
+1. Add verification functionality.
