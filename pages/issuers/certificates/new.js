@@ -47,6 +47,8 @@ class NewCertificate extends Component {
         typeOfCertificate,
         details
       ).send({ from: accounts[0] });
+
+      Router.pushRoute(`/issuers/${this.props.address}/certificates/view`);
     } catch (err) {
         this.setState({
           errorMessage: err.message,
@@ -60,11 +62,6 @@ class NewCertificate extends Component {
   render() {
     return (
       <Layout>
-        <Link route={`/issuers/${this.props.address}/certificates/view`}>
-         <a>
-          Verify Certificates
-         </a>
-        </Link>
         <h3>{`Issue a New Certificate for ${this.props.issuerName}`}</h3>
 
         <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage} warning={this.state.warning}>
