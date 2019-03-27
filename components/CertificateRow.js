@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Table, Button } from 'semantic-ui-react';
+import { Link, Router } from '../routes';
 
 class CertificateRow extends Component {
   render() {
     const { Row, Cell } = Table;
-    const { id, certificate } = this.props;
+    const { id, certificate, address } = this.props;
 
     return (
       <Row>
@@ -14,7 +15,9 @@ class CertificateRow extends Component {
         <Cell>{certificate.recipientID}</Cell>
         <Cell>{certificate.typeOfCertificate}</Cell>
         <Cell>
-          <Button primary>Verify</Button>
+          <Link route={`/issuers/${address}/certificates/verify/${id}`}>
+            <Button primary>Verify</Button>
+          </Link>
         </Cell>
       </Row>
     );
