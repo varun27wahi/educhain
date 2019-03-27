@@ -8,6 +8,7 @@ import web3 from '../../ethereum/web3';
 class NewIssuer extends Component {
   state = {
     name: '',
+    issuerAddress: '',
     errorMessage: '',
     warning: false,
     loading: false
@@ -26,7 +27,7 @@ class NewIssuer extends Component {
       this.setState({ warning: true });
 
       const accounts = await web3.eth.getAccounts();
-      await factory.methods.createNewIssuer(this.state.name).send({
+      await factory.methods.createNewIssuer(this.state.issuerAddress, this.state.name).send({
         from: accounts[0]
       });
 
@@ -53,11 +54,18 @@ class NewIssuer extends Component {
             />
           </Form.Field>
 
+          <Form.Field>
+            <label>Issuer Address</label>
+            <Input
+              value={this.state.issuerAddress}
+              onChange={event => this.setState({ issuerAddress: event.target.value })}
+            />
+          </Form.Field>
+
           <Message warning header="Please see!"
             list={[
               "The transaction will only be processed if you're the Central Authority.",
-              "Your transaction will take 10-15 seconds to be completed in the Blockchain.",
-              "Ensure that the name field isn't blank if the transaction fails."
+              "Your transaction will take 10-15 seconds to be completed in the Blockchain."
             ]} />
           <Message error header="Oops!" content={this.state.errorMessage} />
           <Button icon labelPosition="left" primary loading={this.state.loading}>
