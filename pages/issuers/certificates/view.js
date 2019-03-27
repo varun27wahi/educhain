@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Table } from 'semantic-ui-react';
+import { Table, Button, Icon } from 'semantic-ui-react';
 import Layout from '../../../components/Layout';
 import Issuer from '../../../ethereum/issuer';
 import CertificateRow from '../../../components/CertificateRow';
+import { Link, Router } from '../../../routes';
 
 class ViewCertificates extends Component {
   static async getInitialProps(props) {
@@ -60,6 +61,13 @@ class ViewCertificates extends Component {
         <div>
           Found {this.props.numberOfCertificates} certificate(s).
         </div>
+
+        <Link route={`/issuers/${this.props.address}/certificates/new`}>
+          <Button style={{ marginTop: '30px' }} icon labelPosition="left">
+            <Icon name="add circle" />
+            Issue a New Certificate
+          </Button>
+        </Link>
       </Layout>
     );
   }
