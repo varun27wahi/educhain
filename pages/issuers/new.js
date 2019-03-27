@@ -27,7 +27,7 @@ class NewIssuer extends Component {
       this.setState({ warning: true });
 
       const accounts = await web3.eth.getAccounts();
-      await factory.methods.createNewIssuer(this.state.issuerAddress, this.state.name).send({
+      await factory.methods.createNewIssuer(this.state.name, this.state.issuerAddress).send({
         from: accounts[0]
       });
 
