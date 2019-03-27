@@ -17,15 +17,18 @@ class ViewCertificates extends Component {
       })
     );
 
-    return { issuerName, numberOfCertificates, certificates };
+    return { issuerName, numberOfCertificates, certificates, address };
   }
 
   renderRows() {
+    const address = this.props.address;
+
     return this.props.certificates.map((certificate, index) => {
       return <CertificateRow
         key={index}
         id={index}
         certificate={certificate}
+        address={address}
       />
     });
   }
