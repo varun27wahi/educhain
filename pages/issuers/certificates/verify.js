@@ -3,6 +3,8 @@ import Layout from '../../../components/Layout';
 import { Table, Message } from 'semantic-ui-react';
 import Issuer from '../../../ethereum/issuer';
 import { Link, Router } from '../../../routes';
+import timestamp from 'unix-timestamp';
+import dateFormat from 'dateformat';
 
 class VerifyCertificate extends Component {
   static async getInitialProps(props) {
@@ -18,6 +20,9 @@ class VerifyCertificate extends Component {
   render() {
     const { Header, Row, HeaderCell, Body, Cell } = Table;
     const { certificate, address, id, issuerName } = this.props;
+    const issuingDate = timestamp.toDate(parseInt(certificate.issuingDate));
+    const readableDate = dateFormat(issuingDate, "dddd, mmmm dS, yyyy, h:MM:ss TT");
+    console.log(issuingDate);
 
     return (
       <Layout>
@@ -53,7 +58,7 @@ class VerifyCertificate extends Component {
             </Row>
             <Row>
               <Cell active textAlign="center">Issuing Date</Cell>
-              <Cell>{certificate.issuingDate}</Cell>
+              <Cell>{readableDate}</Cell>
             </Row>
             <Row>
               <Cell active textAlign="center">Type of Certificate</Cell>
