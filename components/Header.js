@@ -11,7 +11,7 @@ export default () => {
 
       <Menu.Menu position="right">
         <Link route="/issuers/new">
-          <a className="item">Become an Issuer!</a>
+          <a className="item">Add Issuer (CA)</a>
         </Link>
       </Menu.Menu>
     </Menu>
