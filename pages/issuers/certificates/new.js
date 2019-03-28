@@ -12,6 +12,7 @@ class NewCertificate extends Component {
     recipientID: '',
     typeOfCertificate: '',
     details: '',
+    infoMessageContent: '',
     errorMessage: '',
     warning: false,
     loading: false
@@ -21,8 +22,9 @@ class NewCertificate extends Component {
     const { address } = props.query;
     const issuer = Issuer(address);
     const issuerName = await issuer.methods.issuerName().call();
+    const numberOfCertificates = await issuer.methods.getNumberOfCertificates().call();
 
-    return { address, issuer, issuerName };
+    return { address, issuer, issuerName, numberOfCertificates };
   }
 
   onSubmit = async event => {
@@ -31,7 +33,8 @@ class NewCertificate extends Component {
     this.setState({
       loading: true,
       errorMessage: '',
-      warning: false
+      warning: false,
+      infoMessageContent: ''
     });
 
     const { description, issuingAuthority, recipientID, typeOfCertificate, details } = this.state;
@@ -48,7 +51,12 @@ class NewCertificate extends Component {
         details
       ).send({ from: accounts[0] });
 
-      Router.pushRoute(`/issuers/${this.props.address}/certificates/view`);
+      const latestCertificate = await this.props.issuer.methods.certificates(this.props.numberOfCertificates).call();
+      const uniqueID = latestCertificate.id;
+      console.log(uniqueID);
+      const messageContent = `${uniqueID}: Kindly pass it on to the student.`;
+      console.log(messageContent);
+      this.setState({ infoMessageContent: messageContent, warning: false });
     } catch (err) {
         this.setState({
           errorMessage: err.message,
@@ -116,6 +124,13 @@ class NewCertificate extends Component {
             Issue to Blockchain
           </Button>
         </Form>
+
+        <Message
+          info
+          icon="file alternate outline"
+          header="Unique ID of this Certificate"
+          content={this.state.infoMessageContent}
+        />
       </Layout>
     );
   }
